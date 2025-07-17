@@ -3,58 +3,56 @@
 <p align="center">
   <img src="https://img.shields.io/badge/status-completed-brightgreen?style=for-the-badge" alt="Status: Completed"/>
   <img src="https://img.shields.io/badge/python-3.9+-blue?style=for-the-badge&logo=python" alt="Python 3.9+"/>
-  <img src="https://img.shields.io/badge/pytorch-EE4C2C?style=for-the-badge&logo=pytorch" alt="PyTorch"/>
+  <img src="https://img.shields.io/badge/tensorflow-FF6F00?style=for-the-badge&logo=tensorflow" alt="TensorFlow"/>
+  <img src="https://img.shields.io/badge/opencv-5C3EE8?style=for-the-badge&logo=opencv" alt="OpenCV"/>
   <img src="https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge" alt="License: MIT"/>
 </p>
 
-간단한 CNN(Convolutional Neural Network) 모델을 기반으로, 사용자가 직접 캔버스에 그린 손글씨 숫자를 실시간으로 인식하는 프로그램입니다. 고전적인 머신러닝 데이터셋인 MNIST로 학습된 모델을 사용하며, 사용자는 웹 UI를 통해 직접 숫자를 그리고 인식 결과를 확인할 수 있습니다.
+TensorFlow/Keras를 사용하여 직접 구축한 CNN(Convolutional Neural Network) 모델로 손글씨 숫자를 인식하는 커맨드 라인 기반 프로그램입니다. `trainer.py`로 MNIST 데이터셋을 학습하고, `recognizer.py`에 직접 그린 숫자 이미지를 입력하여 인식 결과를 텍스트 파일로 출력합니다.
 
 <br>
 
-## 📸 데모 (Screenshots)
+## 📸 실행 과정 (Execution Flow)
 
-<p align="center">
-  <img src="<./demo_handwriting.gif>" alt="프로그램 실행 데모" width="700"/>
-  <em><p align="center">사용자가 '7'을 그리자 모델이 실시간으로 예측하는 화면</p></em>
-</p>
+이 프로그램은 별도의 그래픽 UI 없이 커맨드 라인을 통해 실행됩니다.
+
+1.  **입력 이미지 준비**: 그림판 등을 이용해 흰 배경에 검은색으로 숫자를 그린 이미지를 준비합니다. (예: `my_digit.png`)
+    ![입력 이미지 예시](https://i.imgur.com/O91m2s9.png)
+
+2.  **명령어 실행**: 터미널에서 `recognizer.py`를 실행하여 모델에 이미지를 입력합니다.
+    ```bash
+    python recognizer.py 2025254002.h5 my_digit.png
+    ```
+
+3.  **결과 확인**: 터미널과 텍스트 파일로 저장된 인식 결과를 확인합니다.
+    ```
+    인식된 숫자: 7
+    결과를 '2025254002.txt' 파일에 저장했습니다.
+    ```
 
 ## ✨ 주요 기능 (Key Features)
 
-- **실시간 숫자 인식**: 사용자가 캔버스에 숫자를 그리는 동안 모델이 예측 결과를 실시간으로 업데이트합니다.
-- **인터랙티브 캔버스**: 사용자가 자유롭게 숫자를 그리고, 'Clear' 버튼으로 쉽게 캔버스를 지울 수 있습니다.
-- **확률 분포 시각화**: 0부터 9까지 각 숫자에 대한 모델의 예측 확률을 막대그래프로 보여줍니다.
-- **직관적인 UI**: 별도 설치 없이 웹 브라우저만으로 쉽게 프로그램을 사용할 수 있습니다.
+- **맞춤형 CNN 모델**: 두 개의 컨볼루션 레이어로 구성된 간단하고 효율적인 CNN 모델을 직접 설계하여 사용합니다.
+- **커맨드 라인 인터페이스(CLI)**: GUI 없이 터미널에서 직접 모델과 이미지 경로를 인자로 받아 실행됩니다.
+- **이미지 전처리**: 사용자가 직접 그린 이미지(흰 배경, 검은 글씨)를 MNIST 데이터셋 형식(검은 배경, 흰 글씨)에 맞게 자동으로 변환합니다.
+- **결과 파일 출력**: 최종 인식 결과를 `<학번>.txt` 파일로 저장하여 제출 및 평가에 용이하도록 했습니다.
 
 ## 💻 기술 스택 (Tech Stack)
 
-- **언어**: `Python 3.9`
-- **핵심 라이브러리**: `PyTorch`, `NumPy`
-- **웹 UI 및 캔버스**: `Streamlit`, `streamlit-drawable-canvas`
-- **데이터 처리**: `Pillow`
+- **언어**: `Python`
+- **핵심 라이브러리**: `TensorFlow`, `Keras`, `OpenCV-Python`, `NumPy`
 - **학습 데이터셋**: `MNIST`
 
-## 🚀 모델링 및 학습 과정 (Modeling & Training Process)
+## 🗂️ 주요 파일 설명
 
-- **모델 구조**: 두 개의 합성곱 층(Convolutional Layers)과 두 개의 완전 연결 층(Fully Connected Layers)으로 구성된 간단한 CNN 모델을 직접 설계했습니다. 이미지의 공간적 특징을 효과적으로 학습하기에 적합한 구조입니다.
-- **학습 데이터**: 28x28 픽셀 크기의 흑백 손글씨 숫자 이미지 7만 개(학습 6만, 테스트 1만)로 구성된 `MNIST` 데이터셋을 사용했습니다.
-- **주요 하이퍼파라미터**:
-  - `Epochs`: 10
-  - `Batch Size`: 64
-  - `Optimizer`: Adam
-  - `Learning Rate`: 0.001
-
-## 📊 성능 평가 (Performance)
-
-MNIST 테스트 데이터셋(10,000개 이미지)으로 모델의 성능을 평가한 결과, 약 **99.2%**의 매우 높은 분류 정확도(Accuracy)를 달성했습니다.
+- **`trainer.py`**: MNIST 데이터셋을 자동으로 불러와 CNN 모델을 학습시키고, 학습된 가중치를 `<학번>.h5` 파일로 저장합니다.
+- **`recognizer.py`**: 커맨드 라인 인자로 모델 파일과 이미지 파일을 받아, 이미지를 전처리하고 숫자를 인식한 후, 결과를 터미널과 `<학번>.txt` 파일로 출력합니다.
+- **`<학번>.h5`**: `trainer.py`를 통해 학습이 완료된 Keras 모델 파일입니다.
+- **`<학번>.txt`**: `recognizer.py`가 생성하는 최종 숫자 인식 결과 파일입니다.
 
 ## 🛠️ 설치 및 실행 방법 (Installation & Usage)
 
-### 1. 사전 요구사항
-
-- Python 3.9 이상
-- Git
-
-### 2. 설치 과정
+### 1. 환경 설정
 
 ```bash
 # 1. 프로젝트 저장소를 복제합니다.
@@ -66,53 +64,51 @@ cd PROJECT-Handwriting-recognition-programs
 # 3. 필요한 라이브러리를 설치합니다.
 pip install -r requirements.txt
 ```
-> **`requirements.txt` 예시:**
+> **`requirements.txt` 내용:**
 > ```txt
-> torch
+> tensorflow
+> opencv-python
 > numpy
-> streamlit
-> streamlit-drawable-canvas
-> pillow
 > ```
 
-### 3. 프로그램 실행
+### 2. 모델 학습 (Training)
 
-아래 명령어를 터미널에 입력하여 웹 애플리케이션을 실행합니다.
-
+아래 명령어를 실행하면 MNIST 데이터셋을 자동으로 다운로드하여 모델 학습을 시작합니다.
 ```bash
-streamlit run app.py
+python trainer.py
 ```
+학습이 완료되면 `2025254002.h5` 모델 파일이 생성됩니다.
 
-명령어 실행 후, 터미널에 나타나는 `Local URL` (예: http://localhost:8501)을 웹 브라우저에서 열어주세요.
+### 3. 숫자 인식 (Recognition)
 
-## 📂 프로젝트 구조 (Project Structure)
-
+인식할 숫자 이미지를 준비한 뒤 (예: `my_digit.png`), 아래와 같이 커맨드 라인에 모델 파일명과 이미지 파일명을 인자로 전달하여 실행합니다.
+```bash
+python recognizer.py 2025254002.h5 my_digit.png
 ```
-PROJECT-Handwriting-recognition-programs/
-├── 📄 app.py              # Streamlit 웹 애플리케이션 실행 파일
-├── 📄 model.py             # CNN 모델 구조 정의 파일
-├── 📄 train.py             # 모델 학습 스크립트
-├── 📦 models/
-│   └── 📄 mnist_cnn.pth    # 학습된 모델 가중치 파일
-├── 📄 requirements.txt    # 필요한 파이썬 라이브러리 목록
-├── 📄 .gitignore
-└── 📄 README.md           # 바로 이 파일!
-```
+실행이 완료되면 터미널에 인식된 숫자가 출력되고, `2025254002.txt` 파일이 생성됩니다.
 
-## 🤔 프로젝트 후기 (What I Learned)
+## 🚀 모델 아키텍처 및 학습 과정
 
-CNN 모델의 기본 구조와 동작 원리를 직접 코드로 구현하며 깊이 있게 이해할 수 있었습니다. 특히, MNIST 데이터셋의 이미지(28x28)와 사용자가 캔버스에 그린 이미지의 형태(크기, 굵기 등)가 달라 발생하는 불일치를 해결하는 전처리 과정의 중요성을 깨달았습니다.
+- **모델 구조**: `Keras Sequential` API를 사용하여 아래와 같은 순서의 간단한 CNN 모델을 구축했습니다.
+    1.  `Conv2D` (32 filters, 3x3 kernel, a_relu)
+    2.  `MaxPooling2D` (2x2)
+    3.  `Conv2D` (64 filters, 3x3 kernel, relu)
+    4.  `MaxPooling2D` (2x2)
+    5.  `Flatten`
+    6.  `Dense` (128 units, relu)
+    7.  `Dropout` (0.5)
+    8.  `Dense` (10 units, softmax) - 최종 출력층
 
-## 💡 향후 개선 계획 (Future Work)
-
-- **알파벳 및 한글 인식**: MNIST 숫자를 넘어 EMNIST(알파벳), 나아가 직접 구축한 한글 데이터셋으로 모델을 확장하고 싶습니다.
-- **모델 경량화**: 더 빠른 반응 속도를 위해 학습된 모델을 최적화하고 경량화하는 작업을 진행할 계획입니다.
-- **온디바이스 AI 구현**: 학습된 모델을 `CoreML`이나 `TFLite` 형식으로 변환하여 모바일에서 직접 동작하는 애플리케이션을 개발하고 싶습니다.
+- **학습 상세**:
+  - **데이터셋**: MNIST (학습 60,000장, 테스트 10,000장)
+  - **최적화기(Optimizer)**: `Adam`
+  - **손실 함수(Loss Function)**: `categorical_crossentropy`
+  - **배치 크기(Batch Size)**: 128
+  - **에포크(Epochs)**: 10
 
 ## 📜 라이선스 (License)
 
 이 프로젝트는 [MIT License](LICENSE)를 따릅니다.
 
 ---
-*이 프로젝트가 마음에 드셨다면, ⭐(Star)를 눌러주세요!*
 *Made by **전양호***
